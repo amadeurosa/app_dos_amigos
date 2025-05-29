@@ -19,7 +19,6 @@ $(function () {
     salvarLista();
   });
 
-  // ✅ Use `on` fora do `click` de adicionar
   $(document).on("click", ".del", function () {
     $(this).parent().remove();
     salvarLista();
