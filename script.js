@@ -42,13 +42,14 @@ document.addEventListener("DOMContentLoaded", function () {
     botao.className = "del";
     botao.textContent = "X";
 
-    botao.addEventListener("click", function (e) {
+    // Escopo fechado usando arrow function com referência à variável atual
+    botao.addEventListener("click", (e) => {
       e.stopPropagation();
       li.remove();
       salvarLista();
     });
 
-    botao.addEventListener("touchend", function (e) {
+    botao.addEventListener("touchend", (e) => {
       e.stopPropagation();
       li.remove();
       salvarLista();
@@ -63,4 +64,3 @@ document.addEventListener("DOMContentLoaded", function () {
     update: salvarLista,
   });
 });
-
