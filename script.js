@@ -19,10 +19,12 @@ $(function () {
     salvarLista();
   });
 
-  $(document).on("click", ".del", function () {
-    $(this).parent().remove();
+document.addEventListener("click", function (event) {
+  if (event.target.classList.contains("del")) {
+    event.target.parentElement.remove();
     salvarLista();
-  });
+  }
+});
 
   $("#limpar").on("click", function () {
     $("#lista").empty();
