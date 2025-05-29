@@ -53,14 +53,14 @@ document.addEventListener("DOMContentLoaded", function () {
       e.stopPropagation();
       if (tapTimer) {
         clearTimeout(tapTimer);
-        botao.parentElement.remove();
+        li.remove();
         salvarLista();
       }
     });
 
     botao.addEventListener("click", function (e) {
       e.stopPropagation();
-      botao.parentElement.remove();
+      li.remove();
       salvarLista();
     });
 
