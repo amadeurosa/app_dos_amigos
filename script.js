@@ -11,7 +11,6 @@ $(function () {
   $("#adicionar").on("click", function () {
     const artista = $("#nome").val().trim();
     if (!artista) return;
-
     $("#lista").append('<li>' + artista + ' <button class="del">X</button></li>');
     $("#nome").val("");
     salvarLista();
@@ -35,22 +34,4 @@ $(function () {
     });
     localStorage.setItem("artistas", JSON.stringify(artistas));
   }
-});
-
-  });
-
-  // Função para salvar no LocalStorage
-  function salvarLista() {
-    const artistas = [];
-    $("#lista li").each(function () {
-      const texto = $(this).clone().children().remove().end().text().trim(); // remove botão X
-      artistas.push(texto);
-    });
-    localStorage.setItem("artistas", JSON.stringify(artistas));
-  }
-});
-
-$(function () {
-  $("#lista").sortable();
-  $("#lista").disableSelection();
 });
