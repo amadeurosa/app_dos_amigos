@@ -46,6 +46,13 @@
       color: #333;
   }
 
+  .scroll-container {
+      overflow-x: auto;
+      white-space: nowrap;
+      -webkit-overflow-scrolling: touch;
+      padding-top: 10px;
+  }
+
 
   #lista li {
       margin: 0.6rem 0;
