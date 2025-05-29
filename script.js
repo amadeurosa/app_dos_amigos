@@ -1,12 +1,11 @@
 $(function () {
-  // Carrega do LocalStorage ao iniciar
   const artistasSalvos = JSON.parse(localStorage.getItem("artistas")) || [];
   artistasSalvos.forEach(artista => {
     $("#lista").append('<li>' + artista + ' <button class="del">X</button></li>');
   });
 
-  $('#lista').sortable({
-    update: salvarLista // salva nova ordem
+  $("#lista").sortable({
+    update: salvarLista
   });
 
   $("#adicionar").on("click", function () {
@@ -26,6 +25,18 @@ $(function () {
   $("#limpar").on("click", function () {
     $("#lista").empty();
     localStorage.removeItem("artistas");
+  });
+
+  function salvarLista() {
+    const artistas = [];
+    $("#lista li").each(function () {
+      const texto = $(this).clone().children().remove().end().text().trim();
+      artistas.push(texto);
+    });
+    localStorage.setItem("artistas", JSON.stringify(artistas));
+  }
+});
+
   });
 
   // Função para salvar no LocalStorage
