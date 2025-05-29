@@ -66,6 +66,12 @@
       cursor: grab;
   }
 
+#lista li {
+  touch-action: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
 
   @media (max-width: 600px) {
       #lista li {
