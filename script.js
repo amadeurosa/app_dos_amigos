@@ -4,46 +4,23 @@ document.addEventListener("DOMContentLoaded", function () {
   const addBtn = document.getElementById("adicionar");
   const limparBtn = document.getElementById("limpar");
 
+  // Carregar do localStorage
+  const artistasSalvos = JSON.parse(localStorage.getItem("artistas")) || [];
+  artistasSalvos.forEach((artista) => {
+    adicionarArtistaNaLista(artista);
+  });
+
+  // Salvar lista no localStorage
   function salvarLista() {
     const artistas = [];
     lista.querySelectorAll("li").forEach((li) => {
-      const texto = li.querySelector(".texto");
-      if (texto) {
-        artistas.push(texto.textContent.trim());
-      }
+      const texto = li.querySelector(".texto").textContent.trim();
+      artistas.push(texto);
     });
     localStorage.setItem("artistas", JSON.stringify(artistas));
   }
 
-  function adicionarArtistaNaLista(nome) {
-    const li = document.createElement("li");
-
-    const span = document.createElement("span");
-    span.classList.add("texto");
-    span.textContent = nome;
-
-    const botao = document.createElement("button");
-    botao.classList.add("del");
-    botao.textContent = "X";
-
-    // Eventos separados para mobile e desktop
-    botao.addEventListener("click", function (e) {
-      e.stopPropagation();
-      li.remove();
-      salvarLista();
-    });
-
-    botao.addEventListener("touchend", function (e) {
-      e.stopPropagation();
-      li.remove();
-      salvarLista();
-    });
-
-    li.appendChild(span);
-    li.appendChild(botao);
-    lista.appendChild(li);
-  }
-
+  // Adicionar novo artista
   addBtn.addEventListener("click", function () {
     const nome = nomeInput.value.trim();
     if (!nome) return;
@@ -52,24 +29,49 @@ document.addEventListener("DOMContentLoaded", function () {
     salvarLista();
   });
 
+  // Limpar lista
   limparBtn.addEventListener("click", function () {
     lista.innerHTML = "";
     localStorage.removeItem("artistas");
   });
 
-  // Delegação adicional (extra segurança)
-  lista.addEventListener("click", function (e) {
-    if (e.target.classList.contains("del")) {
-      e.target.parentElement.remove();
+  // Criar item com botão de remoção
+  function adicionarArtistaNaLista(nome) {
+    const li = document.createElement("li");
+    const span = document.createElement("span");
+    span.className = "texto";
+    span.textContent = nome;
+
+    const botao = document.createElement("button");
+    botao.className = "del";
+    botao.textContent = "X";
+
+    function removerItemSeguro() {
+      if (botao.disabled) return;
+      botao.disabled = true;
+      li.remove();
       salvarLista();
+      setTimeout(() => {
+        botao.disabled = false;
+      }, 300);
     }
-  });
 
-  // Carregar artistas salvos
-  const artistasSalvos = JSON.parse(localStorage.getItem("artistas")) || [];
-  artistasSalvos.forEach((artista) => adicionarArtistaNaLista(artista));
+    botao.addEventListener("click", function (e) {
+      e.stopPropagation();
+      removerItemSeguro();
+    });
 
-  // Ativar ordenação
+    botao.addEventListener("touchend", function (e) {
+      e.stopPropagation();
+      removerItemSeguro();
+    });
+
+    li.appendChild(span);
+    li.appendChild(botao);
+    lista.appendChild(li);
+  }
+
+  // Ativar arrastar com jQuery UI
   $("#lista").sortable({
     update: salvarLista,
   });
