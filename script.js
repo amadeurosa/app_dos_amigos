@@ -4,20 +4,25 @@ document.addEventListener("DOMContentLoaded", function () {
   const addBtn = document.getElementById("adicionar");
   const limparBtn = document.getElementById("limpar");
 
+  // Carregar do localStorage
   const artistasSalvos = JSON.parse(localStorage.getItem("artistas")) || [];
   artistasSalvos.forEach((artista) => {
     adicionarArtistaNaLista(artista);
   });
 
+  // Salvar lista no localStorage
   function salvarLista() {
     const artistas = [];
     lista.querySelectorAll("li").forEach((li) => {
-      const texto = li.querySelector(".texto").textContent.trim();
-      artistas.push(texto);
+      const span = li.querySelector("span");
+      if (span) {
+        artistas.push(span.textContent.trim());
+      }
     });
     localStorage.setItem("artistas", JSON.stringify(artistas));
   }
 
+  // Adicionar novo artista
   addBtn.addEventListener("click", function () {
     const nome = nomeInput.value.trim();
     if (!nome) return;
@@ -26,32 +31,30 @@ document.addEventListener("DOMContentLoaded", function () {
     salvarLista();
   });
 
+  // Limpar lista
   limparBtn.addEventListener("click", function () {
     lista.innerHTML = "";
     localStorage.removeItem("artistas");
   });
 
+  // Delegação para botão X
+  lista.addEventListener("click", function (e) {
+    if (e.target.classList.contains("del")) {
+      e.stopPropagation();
+      e.preventDefault();
+      e.target.parentElement.remove();
+      salvarLista();
+    }
+  });
+
+  // Criar item
   function adicionarArtistaNaLista(nome) {
     const li = document.createElement("li");
-    const span = document.createElement("span");
-    span.className = "texto";
-    span.textContent = nome;
-
-    const botao = document.createElement("button");
-    botao.className = "del";
-    botao.textContent = "X";
-
-    botao.addEventListener("click", function (e) {
-      e.stopPropagation();
-      li.remove();
-      salvarLista();
-    });
-
-    li.appendChild(span);
-    li.appendChild(botao);
+    li.innerHTML = '<span class="texto">' + nome + '</span><button class="del">X</button>';
     lista.appendChild(li);
   }
 
+  // Ativar sortable (com touch support)
   $("#lista").sortable({
     update: salvarLista,
   });
