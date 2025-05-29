@@ -1,42 +1,58 @@
-$(function () {
+
+document.addEventListener("DOMContentLoaded", function () {
+  const lista = document.getElementById("lista");
+  const nomeInput = document.getElementById("nome");
+  const addBtn = document.getElementById("adicionar");
+  const limparBtn = document.getElementById("limpar");
+
+  // Carregar do localStorage
   const artistasSalvos = JSON.parse(localStorage.getItem("artistas")) || [];
-  artistasSalvos.forEach(artista => {
-    $("#lista").append('<li>' + artista + ' <button class="del">X</button></li>');
+  artistasSalvos.forEach((artista) => {
+    adicionarArtistaNaLista(artista);
   });
 
-  $("#lista").sortable({
-    update: salvarLista
-  });
-
-  $("#lista").disableSelection();
-
-  $("#adicionar").on("click", function () {
-    const artista = $("#nome").val().trim();
-    if (!artista) return;
-
-    $("#lista").append('<li>' + artista + ' <button class="del">X</button></li>');
-    $("#nome").val("");
-    salvarLista();
-  });
-
-document.addEventListener("click", function (event) {
-  if (event.target.classList.contains("del")) {
-    event.target.parentElement.remove();
-    salvarLista();
-  }
-});
-
-  $("#limpar").on("click", function () {
-    $("#lista").empty();
-    localStorage.removeItem("artistas");
-  });
-
+  // Salvar lista no localStorage
   function salvarLista() {
     const artistas = [];
-    $("#lista li").each(function () {
-      const texto = $(this).clone().children().remove().end().text().trim();
+    lista.querySelectorAll("li").forEach((li) => {
+      const texto = li.textContent.replace("X", "").trim();
       artistas.push(texto);
     });
     localStorage.setItem("artistas", JSON.stringify(artistas));
   }
+
+  // Adicionar novo artista
+  addBtn.addEventListener("click", function () {
+    const nome = nomeInput.value.trim();
+    if (!nome) return;
+    adicionarArtistaNaLista(nome);
+    nomeInput.value = "";
+    salvarLista();
+  });
+
+  // Limpar lista
+  limparBtn.addEventListener("click", function () {
+    lista.innerHTML = "";
+    localStorage.removeItem("artistas");
+  });
+
+  // Delegação para botão X
+  lista.addEventListener("click", function (e) {
+    if (e.target.classList.contains("del")) {
+      e.target.parentElement.remove();
+      salvarLista();
+    }
+  });
+
+  // Criar item
+  function adicionarArtistaNaLista(nome) {
+    const li = document.createElement("li");
+    li.innerHTML = nome + ' <button class="del">X</button>';
+    lista.appendChild(li);
+  }
+
+  // Ativar sortable
+  $("#lista").sortable({
+    update: salvarLista,
+  });
 });
