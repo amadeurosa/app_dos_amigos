@@ -4,11 +4,6 @@ document.addEventListener("DOMContentLoaded", function () {
   const addBtn = document.getElementById("adicionar");
   const limparBtn = document.getElementById("limpar");
 
-  const artistasSalvos = JSON.parse(localStorage.getItem("artistas")) || [];
-  artistasSalvos.forEach((artista) => {
-    adicionarArtistaNaLista(artista);
-  });
-
   function salvarLista() {
     const artistas = [];
     lista.querySelectorAll("li").forEach((li) => {
@@ -18,6 +13,35 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     });
     localStorage.setItem("artistas", JSON.stringify(artistas));
+  }
+
+  function adicionarArtistaNaLista(nome) {
+    const li = document.createElement("li");
+
+    const span = document.createElement("span");
+    span.classList.add("texto");
+    span.textContent = nome;
+
+    const botao = document.createElement("button");
+    botao.classList.add("del");
+    botao.textContent = "X";
+
+    // Eventos separados para mobile e desktop
+    botao.addEventListener("click", function (e) {
+      e.stopPropagation();
+      li.remove();
+      salvarLista();
+    });
+
+    botao.addEventListener("touchend", function (e) {
+      e.stopPropagation();
+      li.remove();
+      salvarLista();
+    });
+
+    li.appendChild(span);
+    li.appendChild(botao);
+    lista.appendChild(li);
   }
 
   addBtn.addEventListener("click", function () {
@@ -33,35 +57,21 @@ document.addEventListener("DOMContentLoaded", function () {
     localStorage.removeItem("artistas");
   });
 
-  function adicionarArtistaNaLista(nome) {
-    const li = document.createElement("li");
-
-    const texto = document.createElement("span");
-    texto.className = "texto";
-    texto.textContent = nome;
-
-    const botao = document.createElement("button");
-    botao.className = "del";
-    botao.textContent = "X";
-
-    botao.addEventListener("click", function (e) {
-      e.stopPropagation();
-      li.remove();
+  // Delegação adicional (extra segurança)
+  lista.addEventListener("click", function (e) {
+    if (e.target.classList.contains("del")) {
+      e.target.parentElement.remove();
       salvarLista();
-    });
+    }
+  });
 
-    botao.addEventListener("touchend", function (e) {
-      e.stopPropagation();
-      li.remove();
-      salvarLista();
-    });
+  // Carregar artistas salvos
+  const artistasSalvos = JSON.parse(localStorage.getItem("artistas")) || [];
+  artistasSalvos.forEach((artista) => adicionarArtistaNaLista(artista));
 
-    li.appendChild(texto);
-    li.appendChild(botao);
-    lista.appendChild(li);
-  }
-
+  // Ativar ordenação
   $("#lista").sortable({
     update: salvarLista,
   });
 });
+
