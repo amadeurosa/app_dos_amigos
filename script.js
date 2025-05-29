@@ -4,13 +4,11 @@ document.addEventListener("DOMContentLoaded", function () {
   const addBtn = document.getElementById("adicionar");
   const limparBtn = document.getElementById("limpar");
 
-  // Carregar do localStorage
   const artistasSalvos = JSON.parse(localStorage.getItem("artistas")) || [];
   artistasSalvos.forEach((artista) => {
     adicionarArtistaNaLista(artista);
   });
 
-  // Salvar lista no localStorage
   function salvarLista() {
     const artistas = [];
     lista.querySelectorAll("li").forEach((li) => {
@@ -20,7 +18,6 @@ document.addEventListener("DOMContentLoaded", function () {
     localStorage.setItem("artistas", JSON.stringify(artistas));
   }
 
-  // Adicionar novo artista
   addBtn.addEventListener("click", function () {
     const nome = nomeInput.value.trim();
     if (!nome) return;
@@ -29,13 +26,11 @@ document.addEventListener("DOMContentLoaded", function () {
     salvarLista();
   });
 
-  // Limpar lista
   limparBtn.addEventListener("click", function () {
     lista.innerHTML = "";
     localStorage.removeItem("artistas");
   });
 
-  // Criar item com botão de remoção
   function adicionarArtistaNaLista(nome) {
     const li = document.createElement("li");
     const span = document.createElement("span");
@@ -46,14 +41,13 @@ document.addEventListener("DOMContentLoaded", function () {
     botao.className = "del";
     botao.textContent = "X";
 
+    let removido = false;
+
     function removerItemSeguro() {
-      if (botao.disabled) return;
-      botao.disabled = true;
+      if (removido) return;
+      removido = true;
       li.remove();
       salvarLista();
-      setTimeout(() => {
-        botao.disabled = false;
-      }, 300);
     }
 
     botao.addEventListener("click", function (e) {
@@ -71,9 +65,7 @@ document.addEventListener("DOMContentLoaded", function () {
     lista.appendChild(li);
   }
 
-  // Ativar arrastar com jQuery UI
   $("#lista").sortable({
     update: salvarLista,
   });
 });
-
