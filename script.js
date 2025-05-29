@@ -35,3 +35,4 @@ $(function () {
     localStorage.setItem("artistas", JSON.stringify(artistas));
   }
 });
+
