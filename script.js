@@ -41,23 +41,10 @@ document.addEventListener("DOMContentLoaded", function () {
     botao.className = "del";
     botao.textContent = "X";
 
-    let removido = false;
-
-    function removerItemSeguro() {
-      if (removido) return;
-      removido = true;
-      li.remove();
-      salvarLista();
-    }
-
     botao.addEventListener("click", function (e) {
       e.stopPropagation();
-      removerItemSeguro();
-    });
-
-    botao.addEventListener("touchend", function (e) {
-      e.stopPropagation();
-      removerItemSeguro();
+      li.remove();
+      salvarLista();
     });
 
     li.appendChild(span);
