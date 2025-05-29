@@ -1,27 +1,23 @@
-
 document.addEventListener("DOMContentLoaded", function () {
   const lista = document.getElementById("lista");
   const nomeInput = document.getElementById("nome");
   const addBtn = document.getElementById("adicionar");
   const limparBtn = document.getElementById("limpar");
 
-  // Carregar do localStorage
   const artistasSalvos = JSON.parse(localStorage.getItem("artistas")) || [];
   artistasSalvos.forEach((artista) => {
     adicionarArtistaNaLista(artista);
   });
 
-  // Salvar lista no localStorage
   function salvarLista() {
     const artistas = [];
     lista.querySelectorAll("li").forEach((li) => {
-      const texto = li.textContent.replace("X", "").trim();
+      const texto = li.querySelector(".texto").textContent.trim();
       artistas.push(texto);
     });
     localStorage.setItem("artistas", JSON.stringify(artistas));
   }
 
-  // Adicionar novo artista
   addBtn.addEventListener("click", function () {
     const nome = nomeInput.value.trim();
     if (!nome) return;
@@ -30,13 +26,11 @@ document.addEventListener("DOMContentLoaded", function () {
     salvarLista();
   });
 
-  // Limpar lista
   limparBtn.addEventListener("click", function () {
     lista.innerHTML = "";
     localStorage.removeItem("artistas");
   });
 
-  // Delegação para botão X
   lista.addEventListener("click", function (e) {
     if (e.target.classList.contains("del")) {
       e.target.parentElement.remove();
@@ -44,15 +38,25 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 
-  // Criar item
   function adicionarArtistaNaLista(nome) {
     const li = document.createElement("li");
-    li.innerHTML = '<span class="texto">' + nome + '</span><button class="del">X</button>';
+
+    const texto = document.createElement("span");
+    texto.className = "texto";
+    texto.textContent = nome;
+
+    const botao = document.createElement("button");
+    botao.className = "del";
+    botao.textContent = "X";
+
+    li.appendChild(texto);
+    li.appendChild(botao);
+
     lista.appendChild(li);
   }
 
-  // Ativar sortable
   $("#lista").sortable({
     update: salvarLista,
   });
 });
+
