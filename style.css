@@ -72,6 +72,13 @@
   user-select: none;
 }
 
+#lista li {
+  touch-action: none;
+  -webkit-user-select: none;
+  user-select: none;
+  cursor: grab;
+}
+
 
   @media (max-width: 600px) {
       #lista li {
