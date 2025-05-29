@@ -103,3 +103,25 @@ body {
     border-radius: 4px;
     margin-left: 8px;
 }
+
+#lista li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#lista li .texto {
+    flex: 1;
+}
+
+.del {
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    padding: 0.4em 0.7em;
+    border-radius: 4px;
+    font-weight: bold;
+    font-size: 1rem;
+    z-index: 999;
+}
+
