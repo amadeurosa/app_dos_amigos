@@ -38,3 +38,8 @@ $(function () {
     localStorage.setItem("artistas", JSON.stringify(artistas));
   }
 });
+
+$(function () {
+  $("#lista").sortable();
+  $("#lista").disableSelection();
+});
