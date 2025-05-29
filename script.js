@@ -5,9 +5,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const limparBtn = document.getElementById("limpar");
 
   const artistasSalvos = JSON.parse(localStorage.getItem("artistas")) || [];
-  artistasSalvos.forEach((artista) => {
-    adicionarArtistaNaLista(artista);
-  });
+  artistasSalvos.forEach(adicionarArtistaNaLista);
 
   function salvarLista() {
     const artistas = [];
@@ -31,13 +29,6 @@ document.addEventListener("DOMContentLoaded", function () {
     localStorage.removeItem("artistas");
   });
 
-  lista.addEventListener("click", function (e) {
-    if (e.target.classList.contains("del")) {
-      e.target.parentElement.remove();
-      salvarLista();
-    }
-  });
-
   function adicionarArtistaNaLista(nome) {
     const li = document.createElement("li");
 
@@ -49,9 +40,32 @@ document.addEventListener("DOMContentLoaded", function () {
     botao.className = "del";
     botao.textContent = "X";
 
+    let tapTimer = null;
+
+    botao.addEventListener("touchstart", function (e) {
+      e.stopPropagation();
+      tapTimer = setTimeout(() => {
+        tapTimer = null;
+      }, 300);
+    });
+
+    botao.addEventListener("touchend", function (e) {
+      e.stopPropagation();
+      if (tapTimer) {
+        clearTimeout(tapTimer);
+        botao.parentElement.remove();
+        salvarLista();
+      }
+    });
+
+    botao.addEventListener("click", function (e) {
+      e.stopPropagation();
+      botao.parentElement.remove();
+      salvarLista();
+    });
+
     li.appendChild(texto);
     li.appendChild(botao);
-
     lista.appendChild(li);
   }
 
