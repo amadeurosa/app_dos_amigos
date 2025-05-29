@@ -12,8 +12,10 @@ document.addEventListener("DOMContentLoaded", function () {
   function salvarLista() {
     const artistas = [];
     lista.querySelectorAll("li").forEach((li) => {
-      const texto = li.querySelector(".texto").textContent.trim();
-      artistas.push(texto);
+      const texto = li.querySelector(".texto");
+      if (texto) {
+        artistas.push(texto.textContent.trim());
+      }
     });
     localStorage.setItem("artistas", JSON.stringify(artistas));
   }
@@ -42,14 +44,13 @@ document.addEventListener("DOMContentLoaded", function () {
     botao.className = "del";
     botao.textContent = "X";
 
-    // Escopo fechado usando arrow function com referência à variável atual
-    botao.addEventListener("click", (e) => {
+    botao.addEventListener("click", function (e) {
       e.stopPropagation();
       li.remove();
       salvarLista();
     });
 
-    botao.addEventListener("touchend", (e) => {
+    botao.addEventListener("touchend", function (e) {
       e.stopPropagation();
       li.remove();
       salvarLista();
