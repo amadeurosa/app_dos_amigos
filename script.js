@@ -47,7 +47,7 @@ document.addEventListener("DOMContentLoaded", function () {
   // Criar item
   function adicionarArtistaNaLista(nome) {
     const li = document.createElement("li");
-    li.innerHTML = nome + ' <button class="del">X</button>';
+    li.innerHTML = '<span class="texto">' + nome + '</span><button class="del">X</button>';
     lista.appendChild(li);
   }
 
