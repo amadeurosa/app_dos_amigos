@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>App dos Amigos (haha)</title>
+  <title>App dos Amigos</title>
 
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Playfair+Display:wght@700&family=Quicksand:wght@500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
@@ -17,37 +17,26 @@
 
 <body>
 
-    <hr>
-    <main>
-        <h1>APP dos Amigos<img id="pato"
-                src="data:image/jpeg;base64,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"
-                alt=""></h1>
-        <h5>App oficial do Sarau dos Amigos (haha)</h2>
-            <p>Você pode adicionar o artista e a música que vai tocar. Depois pode escolher a ordem da apresentação
-                arrastando os nomes. </p>
-            <input type="text" id="nome" placeholder="Formato: Artista - Música">
-            <button id="adicionar">Adicionar Artista</button>
-            <button id="limpar">Limpar lista</button>
+  <main>
+    <h1>APP dos Amigos</h1>
+    <h5>App oficial do Sarau dos Amigos</h5>
+    <p>Adicione o artista e a música. Depois, arraste para ordenar a apresentação.</p>
 
-            <div class="scroll-container">
-                <ul id="lista">
+    <input type="text" id="nome" placeholder="Artista - Música">
+    <button id="adicionar">Adicionar Artista</button>
+    <button id="limpar">Limpar lista</button>
 
-                </ul>
-            </div>
+    <div class="scroll-container">
+      <ul id="lista"></ul>
+    </div>
+  </main>
 
+  <footer>
+    Aplicativo dos Amigos - Versão de teste lúdico
+  </footer>
 
-
-    </main>
-
-    <hr>
-    <footer>Aplicativo dos Amigos - Versão de teste e descompromissada, pois aqui valorizamos o lúdico. ; </footer>
-
-
-
-
-
-
-    <script src="script.js"></script>
+  <script src="script.js" defer></script>
 </body>
 
 </html>
+
